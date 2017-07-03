@@ -1,13 +1,13 @@
 (function(w){
 	"use strict";
-	var myLockId = chrome.runtime.id;//"pageCheckerLock";
-	console.log(document.getElementById(myLockId));
-	if(document.getElementById(myLockId)!=null) return;
-	var messageHandler;
-	messageHandler = function(request, sender, sendResponse) {
-			console.log(location);
-			console.log(request);
-			//alert(request);
+
+	var myLockId = chrome.runtime.id;
+
+	// script has already been loaded once 
+	if(document.getElementById(myLockId)!=null) return;	
+
+	var messageHandler = function(request, sender, sendResponse) {
+			// get page favicon
 			var iconUri=$("link[rel*='icon']").attr("href");
 			var startCheck = function () {
 				if(document.querySelector(request)) {
@@ -36,7 +36,6 @@
 									}
 									setTimeout(check,15000+Math.random()*5000,selector);
 								}else{
-									//setTimeout(check,5000,selector);
 									setTimeout(check,3000+Math.random()*4000,selector);
 								}
 								element.innerHTML="idle "+Math.ceil(Date.now()/1000%10000);
@@ -60,6 +59,8 @@
 			Notification.requestPermission().then( startCheck );
 	};
 	chrome.runtime.onMessage.addListener(messageHandler);
+
+	// Messages and signal
 	var element = document.createElement("div");
 	element.id = myLockId;
 	element.style.position = "fixed";
