@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+	<head>
+		<style>
+			button { width: -webkit-fill-available;margin-top: 0.5em}
+			label {display: block;margin-bottom: 0.5em}
+		</style>
+	</head>
+	<body>
+		<form onsubmit="void(0)">
+			<div>
+				<label for="selector">Selector</label>
+				<input id="selector" type="text" placeholder="css selector, get it from the inspector/dev tool" value="" autofocus="autofocus"/>
+			</div>
+			<div>
+				<button type="submit">Start Checking</button>
+			</div>
+		</form>
+		<script src="jquery-3.2.1.min.js"></script>
+		<script src="popup.js"></script>
+	</body>
+</html>

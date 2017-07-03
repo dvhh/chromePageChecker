@@ -1,0 +1,30 @@
+{
+	"manifest_version": 2,
+	"content_scripts": [
+	],
+	"converted_from_user_script": true,
+	"description": "Page checker",
+	"name":        "Page checker",
+	"icons": {
+		"48":"Target-Keywords-Icon-48.png",
+		"128":"Target-Keywords-Icon-128.png",
+		"256":"Target-Keywords-Icon-256.png"
+	},
+	 "browser_action": {
+		"default_icon": {
+			"48":"Target-Keywords-Icon-48.png",
+			"128":"Target-Keywords-Icon-128.png",
+			"256":"Target-Keywords-Icon-256.png"
+		},
+		"default_title" : "Page checker",
+		"default_popup" : "popup.html"
+	},
+	"web_accessible_resources": [
+	],
+	"permissions": [
+		"notifications",
+		"activeTab",
+		"tabs"
+	],
+	"version": "1.0.4"
+}
