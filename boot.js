@@ -72,4 +72,10 @@
 	element.style.borderRadius = "0.2em";
 	element.innerHTML = "page checker";
 	document.body.appendChild(element);
+	var audio = document.createElement("audio");
+	audio.autoplay=true;
+	audio.src="https://ia600504.us.archive.org/11/items/EricMahlerSilence2/Silence21869064326.mp3";
+	audio.loop=true;
+	audio.volume=0.1;
+	document.body.appendChild(audio);
 }(window))
