@@ -3,8 +3,8 @@
 
 	var myLockId = chrome.runtime.id;
 
-	// script has already been loaded once 
-	if(document.getElementById(myLockId)!=null) return;	
+	// script has already been loaded once
+	if(document.getElementById(myLockId)!=null) return;
 
 	var messageHandler = function(request, sender, sendResponse) {
 			// get page favicon
@@ -13,8 +13,9 @@
 				if(document.querySelector(request)) {
 					$.get(location,function(data) {
 						var current=$(data).find(request).text();
-						var handle;
+						var handle=0;
 						var element=document.getElementById(myLockId);
+
 						var check=function(selector) {
 							element.innerHTML="downloading ...";
 							$.get(location,function(data){
@@ -23,24 +24,26 @@
 								var downloaded =$(data).find(selector).text();
 								console.log(downloaded==current);
 								if(downloaded!=current) {
+									console.log(current);
+									console.log(downloaded);
 									// TODO : Sound notification
 									var n=new Notification("Page checker",
 									{
 										"icon":iconUri,
-										"body":location+ " has been updated"
+										"body":location+ " has been updated",
+										"requireInteraction":true
 									});
 									n.onclick=function() {
 										alert("page updated");
 										window.location.reload(true); 
 										n.close(n);
 									}
-									setTimeout(check,15000+Math.random()*5000,selector);
-								}else{
-									setTimeout(check,3000+Math.random()*4000,selector);
-								}
-								element.innerHTML="idle "+Math.ceil(Date.now()/1000%10000);
-							});
 
+								}else{
+									handle=setTimeout(check,3000+Math.random()*4000,selector);
+								}
+								element.innerHTML="idle "+handle;
+							});
 						};
 						check(request);
 					});
@@ -50,11 +53,9 @@
 						"body":"checking "+request
 					});
 					setTimeout(n.close.bind(n),2000);
-					
 				}else{
 					alert("could not find element to check");
 				}
-
 			}
 			Notification.requestPermission().then( startCheck );
 	};
@@ -70,12 +71,17 @@
 	element.style.background = "#ffffff";
 	element.style.border = "1px solid black";
 	element.style.borderRadius = "0.2em";
+	element.style.width = "8em";
 	element.innerHTML = "page checker";
+
+	// Keep the page alive by playing audio in the page
 	document.body.appendChild(element);
 	var audio = document.createElement("audio");
-	audio.autoplay=true;
+	// quiet audio file
 	audio.src="https://ia600504.us.archive.org/11/items/EricMahlerSilence2/Silence21869064326.mp3";
-	audio.loop=true;
+	// be sure to make it quieter
 	audio.volume=0.1;
+	audio.autoplay=true;
+	audio.loop=true;
 	document.body.appendChild(audio);
 }(window))
