@@ -10,9 +10,11 @@
 			// get page favicon
 			var iconUri=$("link[rel*='icon']").attr("href");
 			var startCheck = function () {
-				if(document.querySelector(request)) {
+				if(document.querySelector(request.selector)) {
+					var port=chrome.runtime.connect();
+					port.postMessage(request.selector);
 					$.get(location,function(data) {
-						var current=$(data).find(request).text();
+						var current=$(data).find(request.selector).text();
 						var handle=0;
 						var element=document.getElementById(myLockId);
 
@@ -35,6 +37,8 @@
 									});
 									n.onclick=function() {
 										alert("page updated");
+										port.disconnect();
+										//request.background();
 										window.location.reload(true); 
 										n.close(n);
 									}
@@ -43,14 +47,17 @@
 									handle=setTimeout(check,3000+Math.random()*4000,selector);
 								}
 								element.innerHTML="idle "+handle;
+							}).fail(function(){
+								handle=setTimeout(check,3000+Math.random()*4000,selector);
+								element.innerHTML="retry "+handle;
 							});
 						};
-						check(request);
+						check(request.selector);
 					});
 					var n=new Notification("Page checker",
 					{
 						"icon":iconUri,
-						"body":"checking "+request
+						"body":"checking "+request.selector
 					});
 					setTimeout(n.close.bind(n),2000);
 				}else{
@@ -84,4 +91,5 @@
 	audio.autoplay=true;
 	audio.loop=true;
 	document.body.appendChild(audio);
+
 }(window))

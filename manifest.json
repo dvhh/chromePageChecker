@@ -19,12 +19,21 @@
 		"default_title" : "Page checker",
 		"default_popup" : "popup.html"
 	},
+	"background": {
+		"scripts":[
+			"injectCheck.js",
+			"background.js"
+		]
+	},
 	"web_accessible_resources": [
 	],
 	"permissions": [
 		"notifications",
 		"activeTab",
-		"tabs"
+		"background",
+		"tabs",
+		"http://*/*",
+		"https://*/*"
 	],
 	"version": "1.0.6"
 }
