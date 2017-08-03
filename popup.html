@@ -4,13 +4,18 @@
 		<style>
 			button { width: -webkit-fill-available;margin-top: 0.5em}
 			label {display: block;margin-bottom: 0.5em}
+			#IFFT_Field {display: none}
 		</style>
 	</head>
 	<body>
 		<form onsubmit="void(0)">
 			<div>
-				<label for="selector">Selector</label>
+				<label for="selector" id="SelectorLabel">Selector</label>
 				<input id="selector" type="text" placeholder="css selector, get it from the inspector/dev tool" value="" autofocus="autofocus"/>
+			</div>
+			<div id="IFFT_Field" >
+				<label for="ifft_event">IFFT event</label>
+				<input id="ifft_event" type="text" value="" placeholder="event for IFFT webhook call" />
 			</div>
 			<div>
 				<button type="submit">Start Checking</button>

@@ -8,11 +8,15 @@
 
 	var messageHandler = function(request, sender, sendResponse) {
 			// get page favicon
-			var iconUri=$("link[rel*='icon']").attr("href");
+			var iconUri = $("link[rel*='icon']").attr("href");
+			console.log( iconUri );
+			if( iconUri == null ) {
+				iconUri = location.protocol + "//" + location.host + "/favicon.ico";
+			}
 			var startCheck = function () {
 				if(document.querySelector(request.selector)) {
 					var port=chrome.runtime.connect();
-					port.postMessage(request.selector);
+					port.postMessage({"selector":request.selector,"settings":request.settings});
 					$.get(location,function(data) {
 						var current=$(data).find(request.selector).text();
 						var handle=0;
@@ -20,6 +24,7 @@
 
 						var check=function(selector) {
 							element.innerHTML="downloading ...";
+							var timeoutInterval = request.settings.interval + Math.random() * request.settings.jitter;
 							$.get(location,function(data){
 								//n1.close(n1);
 								element.innerHTML="checking ...";
@@ -35,20 +40,24 @@
 										"body":location+ " has been updated",
 										"requireInteraction":true
 									});
+									console.log( request.settings.ifft_hook, request.event);
+									if( ( request.settings.ifft_hook!= null ) && ( request.settings.ifft_hook != "" ) && ( request.event != "" ) ) {
+										var ifft=request.settings.ifft_hook.replace("{event}", request.event );
+										$.get( ifft );
+									}
+									
 									n.onclick=function() {
 										alert("page updated");
 										port.disconnect();
-										//request.background();
 										window.location.reload(true); 
 										n.close(n);
 									}
-
 								}else{
-									handle=setTimeout(check,3000+Math.random()*4000,selector);
+									handle = setTimeout(check, timeoutInterval, selector);
 								}
 								element.innerHTML="idle "+handle;
 							}).fail(function(){
-								handle=setTimeout(check,3000+Math.random()*4000,selector);
+								handle = setTimeout(check, timeoutInterval, selector);
 								element.innerHTML="retry "+handle;
 							});
 						};
