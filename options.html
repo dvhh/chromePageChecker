@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Page checker - settings</title>
+		<style>
+			div.field { margin-bottom: 2em }
+			div.field > label { font-weight: bold; margin-bottom: 0.5em; }
+			div.field > input { margin-top: 1em; }
+			div.field > input[type=number] { text-align: right ; width: 10em; }
+			button#saveButton { margin-left: 1em }
+			.msg { color: red; display: none}
+			div#wrapper {max-width: 800px;
+				border: 1px solid #888;
+				border-radius: 5px;
+				padding : 1em ;
+				margin:auto;
+				background: #fff;
+			}
+			body { background-color: #eee }
+			div.field:last-of-type { text-align: right; }
+		</style>
+	</head>
+	<body>
+		<div id="wrapper">
+			<h1>Page checker - settings</h1>
+			<div class="field">
+				<label for="intervalTimeoutValue">Interval</label><br/>
+				<small>interval between page checking in milliseconds</small><br/>
+				<input id="intervalTimeoutValue" type="number" value="5000" max="1000000" min="1000"> <small>ms</small>
+			</div>
+			<div class="field">
+				<label for="intervalJitterValue">Jitter</label><br/>
+				<small>Interval randomization to appear less automatic</small><br/>
+				<input id="intervalJitterValue" type="number" value="3000" max="1000000" min="1000"> <small>ms</small>
+			</div>
+			<div class="field">
+				<label for="ifft_url">IFFT Webhook URL</label><br/>
+				<small>url endpoint configured in at <a href="https://ifttt.com/maker_webhooks" target="_blank">this location</a> ( then click on "documentation" page to get the link )</small><br/>
+				<input id="ifft_url" type="url" placeholder="https://maker.ifttt.com/trigger/{event}/with/key/XXXXXXXXXXXXX" size="70" >
+			</div>
+			<div class="field">
+				<a href="javascript:void(0)" id="cancelButton" title="revert to save values">Reset</a> <button id="saveButton" >Save</button> 
+				<br/>
+				<small class="msg">Setting saved</small>
+			</div>
+			<script src="jquery-3.2.1.min.js"></script>
+			<script src="options.js"></script>
+		</div>
+	</body>
+</html>

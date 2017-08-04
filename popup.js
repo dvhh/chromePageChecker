@@ -5,10 +5,22 @@
 	$("form").submit( function(){
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 			var tab = tabs[0];
-			var selector = $("input").val();
-			w.injectCheck( tab, selector, function(){ window.close(); } );
+			var selector = $("input#selector").val();
+			var event = $("input#ifft_event").val();
+			w.injectCheck( tab, selector, event, function(){ window.close(); } );
 		});
 		return false;
+	});
+
+	var defaultSettings = {
+			"interval"  : 3000,
+			"jitter"    : 4000,
+			"ifft_hook" : ""
+	};
+	chrome.storage.sync.get( defaultSettings, function(settings) {
+		if(settings.ifft_hook != null ) {
+			$("#IFFT_Field").show();
+		}
 	});
 
 	// selector suggestions
@@ -17,8 +29,9 @@
 			suggestions.forEach(function(entry){
 				var r=new RegExp(entry.regex);
 				if(r.test(tabs[0].url)) {
-					$("input").val(entry.suggestion);
-					$("label").append(" <small>suggested for " + entry.name + "</small>");
+					$("input#selector").val(entry.suggestion);
+					$("label#SelectorLabel").append(" <small>suggested for " + entry.name + "</small>");
+					$("input#ifft_event").val(entry.event);
 				}
 			});
 		});
