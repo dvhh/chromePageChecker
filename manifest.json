@@ -30,6 +30,7 @@
 	"web_accessible_resources": [
 	],
 	"permissions": [
+		"storage",
 		"notifications",
 		"activeTab",
 		"background",

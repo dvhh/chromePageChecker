@@ -33,24 +33,31 @@
 								if(downloaded!=current) {
 									console.log(current);
 									console.log(downloaded);
-									// TODO : Sound notification
-									var n=new Notification("Page checker",
-									{
-										"icon":iconUri,
-										"body":location+ " has been updated",
-										"requireInteraction":true
-									});
+
 									console.log( request.settings.ifft_hook, request.event);
+
 									if( ( request.settings.ifft_hook!= null ) && ( request.settings.ifft_hook != "" ) && ( request.event != "" ) ) {
+										// execute IFFT webhook
 										var ifft=request.settings.ifft_hook.replace("{event}", request.event );
 										$.get( ifft );
-									}
-									
-									n.onclick=function() {
-										alert("page updated");
 										port.disconnect();
 										window.location.reload(true); 
-										n.close(n);
+									} else {
+										// Fallback notification
+										// TODO : Sound notification
+										var n=new Notification("Page checker",
+										{
+											"icon":iconUri,
+											"body":location+ " has been updated",
+											"requireInteraction":true
+										});
+										
+										n.onclick=function() {
+											alert("page updated");
+											port.disconnect();
+											window.location.reload(true); 
+											n.close(n);
+										}
 									}
 								}else{
 									handle = setTimeout(check, timeoutInterval, selector);
