@@ -11,11 +11,18 @@
 		});
 		return false;
 	});
-	$.getJSON( "settings.json", function(settings) {
+
+	var defaultSettings = {
+			"interval"  : 3000,
+			"jitter"    : 4000,
+			"ifft_hook" : ""
+	};
+	chrome.storage.sync.get( defaultSettings, function(settings) {
 		if(settings.ifft_hook != null ) {
 			$("#IFFT_Field").show();
 		}
 	});
+
 	// selector suggestions
 	$.getJSON( "suggestions.json", function(suggestions) {
 		chrome.tabs.query( {currentWindow: true, active: true}, function(tabs){

@@ -14,15 +14,11 @@
 			});
 		};
 
-		// getting settings
-		$.getJSON( "settings.json", injectScript ).fail(function(){
-			// default setting fallback
-			var defaultSettings = {
-				"interval":3000,
-				"jitter":4000,
-				"ifft_hook":""
-			};
-			injectScript( defaultSettings );
-		});
+		var defaultSettings = {
+			"interval"  : 3000,
+			"jitter"    : 4000,
+			"ifft_hook" : ""
+		};
+		chrome.storage.sync.get( defaultSettings, injectScript );
 	};
 }(this));
